@@ -1,4 +1,13 @@
-export default function calculateExercises(trainingDays:Array<number>, dailyTargetHours:number){
+interface Result {
+    periodLength:number,
+    trainingDays:number,
+    success:boolean,
+    rating:number,
+    ratingDescription:string,
+    target:number,
+    average:number
+}
+export default function calculateExercises(trainingDays:Array<number>, dailyTargetHours:number):Result{
     const totalTrainingHours = trainingDays.reduce(
         (accumulator:number, currentValue:number)=>accumulator+currentValue,0
     );
@@ -6,7 +15,6 @@ export default function calculateExercises(trainingDays:Array<number>, dailyTarg
     const totalTargetHours:number = trainingDays.length*dailyTargetHours;
 
     const daysTrained:number = trainingDays.reduce((accumulator:number,currentValue:number)=>{if(currentValue){accumulator+=1;} return accumulator;},0);
-    
 
     const success:boolean = totalTrainingHours>totalTargetHours;
 
@@ -16,16 +24,7 @@ export default function calculateExercises(trainingDays:Array<number>, dailyTarg
 
     const  ratingDescription = success?"good":"bad";
 
-    interface Result {
-        periodLength:number,
-        trainingDays:number,
-        success:boolean,
-        rating:number,
-        ratingDescription:string,
-        target:number,
-        average:number
-    }
-    const Result:Result={
+    const result:Result={
         periodLength:trainingDays.length,
         trainingDays:daysTrained,
         success:success,
@@ -34,5 +33,6 @@ export default function calculateExercises(trainingDays:Array<number>, dailyTarg
         target:totalTargetHours,
         average:average
     };
-    console.log(Result);
+    console.log(result);
+    return result;
 }
